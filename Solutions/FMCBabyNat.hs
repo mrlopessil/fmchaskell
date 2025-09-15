@@ -44,10 +44,14 @@ pred (S n) = n
 
 -- Output: O means False, S O means True
 even :: Nat -> Nat
-even = undefined
+even O = one
+even (S O) = zero
+even (S (S n)) = even n 
 
 odd :: Nat -> Nat
-odd = undefined
+odd O = zero
+odd (S O) = one
+odd (S (S n)) = odd n
 
 -- This is called the dotminus or monus operator
 -- (also: proper subtraction, arithmetic subtraction, ...).
