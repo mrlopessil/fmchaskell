@@ -46,7 +46,7 @@ pred (S n) = n
 even :: Nat -> Nat
 even O = one
 even (S O) = zero
-even (S (S n)) = even n 
+even (S (S n)) = even n
 
 odd :: Nat -> Nat
 odd O = zero
@@ -75,9 +75,12 @@ infixl 7 *
 
 -- exponentiation
 (^) :: Nat -> Nat -> Nat
-(^) = undefined
+(^) O _ = O
+(^) _ O = S O
+(^) n (S m) = n * (n ^ m)
 
 -- decide: infix? ? ^
+infixr 8 ^
 
 -- quotient
 (/) :: Nat -> Nat -> Nat
