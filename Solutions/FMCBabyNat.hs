@@ -143,9 +143,16 @@ factorial (S n) = S n * factorial n
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
-sg = undefined
+sg O = O
+sg (S _) = one
 
 -- lo b a is the floor of the logarithm base b of a
 lo :: Nat -> Nat -> Nat
-lo = undefined
+lo O _ = O
+lo (S O) _ = O
+lo _ O = O
+lo b a =
+  case lt a b of
+    (S O) -> O
+    _ -> S (lo b (a/b))
 
