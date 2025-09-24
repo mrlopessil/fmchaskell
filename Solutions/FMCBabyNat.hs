@@ -67,28 +67,51 @@ monus (S n) (S m) = monus n m
 
 -- multiplication
 (*) :: Nat -> Nat -> Nat
-(*) O _ = O
-(*) _ O = O
-(*) n (S m) = n + (n * m)
+O * _ = O
+_ * O = O
+n * (S m) = n + (n * m)
 
 infixl 7 *
 
 -- exponentiation
 (^) :: Nat -> Nat -> Nat
-(^) O _ = O
-(^) _ O = S O
-(^) n (S m) = n * (n ^ m)
+O ^_ = O
+_ ^ O = S O
+n ^ (S m) = n * (n ^ m)
 
 -- decide: infix? ? ^
 infixr 8 ^
 
+eq :: Nat -> Nat -> Nat
+eq O O = one
+eq O (S _) = zero
+eq (S _) O = zero
+eq (S m) (S n) = eq n m
+
+lt :: Nat -> Nat -> Nat
+lt O O = zero
+lt O (S _) = one
+lt (S n) O = zero
+lt (S n) (S m) = lt n m
+
 -- quotient
 (/) :: Nat -> Nat -> Nat
-(/) = undefined
-
+_ / O = O
+n / m =
+  case (eq n m, lt n m) of
+    (S O, _) -> one
+    (_, S O) -> zero
+    _ -> S ((n `monus` m) / m)
+          
 -- remainder
 (%) :: Nat -> Nat -> Nat
-(%) = undefined
+_ % O = O
+n % m = 
+  case (eq n m, lt n m) of
+    (S O, _) -> O
+    (_, S O) -> n
+    _ -> (n `monus` m) % m
+
 
 -- divides
 -- just for a change, we start by defining the "symbolic" operator
