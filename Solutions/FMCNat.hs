@@ -106,28 +106,35 @@ odd (S (S n)) = odd n
 
 -- addition
 (<+>) :: Nat -> Nat -> Nat
-(<+>) = undefined
+n <+> O = n
+n <+> S m = S (n <+> m)
+
 
 -- This is called the dotminus or monus operator
 -- (also: proper subtraction, arithmetic subtraction, ...).
 -- It behaves like subtraction, except that it returns 0
 -- when "normal" subtraction would return a negative number.
 monus :: Nat -> Nat -> Nat
-monus = undefined
+monus n O = n
+monus O m = O
+monus (S n) (S m) = monus n m
 
 (-*) :: Nat -> Nat -> Nat
-(-*) = undefined
+(-*) = monus
 
 -- multiplication
 times :: Nat -> Nat -> Nat
-times = undefined
+times O _ = O
+times _ O = O
+times n (S m) = n + times n m
 
 (<*>) :: Nat -> Nat -> Nat
 (<*>) = times
 
 -- power / exponentiation
 pow :: Nat -> Nat -> Nat
-pow = undefined
+pow n O = S O
+pow n (S m) = times n (pow n m)
 
 exp :: Nat -> Nat -> Nat
 exp = undefined
