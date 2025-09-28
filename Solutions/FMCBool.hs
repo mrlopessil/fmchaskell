@@ -80,8 +80,8 @@ not False = True
 
 -- if-then-else expression
 ifThenElse :: Bool -> a -> a -> a
-ifThenElse True x _ = x
-ifThenElse False _ x = x
+ifThenElse True b _ = b
+ifThenElse False _ b = b
 
 -- logical "implies"
 (==>) :: Bool -> Bool -> Bool
