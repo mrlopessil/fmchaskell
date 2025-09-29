@@ -26,18 +26,6 @@ data Nat where
   O :: Nat
   S :: Nat -> Nat
 
--- some sugar
-zero, one, two, three, four, five, six, seven, eight :: Nat
-zero  = O
-one   = S zero
-two   = S one
-three = S two
-four  = S three
-five  = S four
-six   = S five
-seven = S six
-eight = S seven
-
 ----------------------------------------------------------------
 -- typeclass implementations
 ----------------------------------------------------------------
@@ -51,14 +39,14 @@ instance Show Nat where
 
 instance Eq Nat where
 
-    (==) O O = True
+    O == O = True
     O == (S _) = False
     (S _) == O = False
     (S n) == (S m) = n == m
 
 instance Ord Nat where
 
-    (<=) O O = True
+    O <= O = True
     O <= (S _) = True
     (S _) <= O = False
     (S n) <= (S m) = n <= m
@@ -119,14 +107,14 @@ monus n O = n
 monus O m = O
 monus (S n) (S m) = monus n m
 
-(-*) :: Nat -> Nat -> Nat
-(-*) = monus
+(<->) :: Nat -> Nat -> Nat
+(<->) = monus
 
 -- multiplication
 times :: Nat -> Nat -> Nat
 times O _ = O
 times _ O = O
-times n (S m) = n + times n m
+times n (S m) = n <+> times n m
 
 (<*>) :: Nat -> Nat -> Nat
 (<*>) = times
@@ -137,26 +125,36 @@ pow n O = S O
 pow n (S m) = times n (pow n m)
 
 exp :: Nat -> Nat -> Nat
-exp = undefined
+exp = pow
 
 (<^>) :: Nat -> Nat -> Nat
-(<^>) = undefined
+(<^>) = pow
+
+infixr 8 <^>
 
 -- quotient
 (</>) :: Nat -> Nat -> Nat
-(</>) = undefined
+_ </> O = error "Division by O is undefined"
+n </> m =
+  case n < m of
+    True -> O
+    False -> S ((n `monus` m) </> m)
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
-(<%>) = undefined
+_ <%> O = error "Division by O is undefined"
+n <%> m = 
+  case n < m of
+    True -> n
+    False -> (n `monus` m) <%> m
 
 -- euclidean division
 eucdiv :: (Nat, Nat) -> (Nat, Nat)
-eucdiv = undefined
+eucdiv (n, m) = (n </> m, n <%> m)
 
 -- divides
 (<|>) :: Nat -> Nat -> Bool
-(<|>) = undefined
+n <|> m = m <%> n == O
 
 divides = (<|>)
 
@@ -165,20 +163,30 @@ divides = (<|>)
 -- x `dist` y = |x - y|
 -- (Careful here: this - is the real minus operator!)
 dist :: Nat -> Nat -> Nat
-dist = undefined
+dist n m
+    | n >= m = n `monus` m
+    | otherwise = m `monus` n
 
 (|-|) = dist
 
 factorial :: Nat -> Nat
-factorial = undefined
+factorial O = S O
+factorial (S n) = S n * factorial n
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
-sg = undefined
+sg O = O
+sg (S _) = S O
 
 -- lo b a is the floor of the logarithm base b of a
 lo :: Nat -> Nat -> Nat
-lo = undefined
+lo O _ = error "Log of base zero is undefined"
+lo (S O) _ = error "Log of base one is undefined"
+lo _ O = error "Log of zero is undefined"
+lo b a =
+  case a < b of
+    True -> O
+    False -> S (lo b (a</>b))
 
 
 ----------------------------------------------------------------
