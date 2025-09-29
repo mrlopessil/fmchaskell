@@ -197,10 +197,14 @@ lo b a =
 -- Do NOT use the following functions in the definitions above!
 
 toNat :: Integral a => a -> Nat
-toNat = undefined
+toNat 0 = O
+toNat n
+    | n < 0 = error "Negative numbers can't be converted to Nat"
+    | otherwise = S (toNat (n - 1))
 
 fromNat :: Integral a => Nat -> a
-fromNat = undefined
+fromNat O = 0
+fromNat (S n) = 1 + fromNat n
 
 
 -- Voilá: we can now easily make Nat an instance of Num.
@@ -208,11 +212,11 @@ instance Num Nat where
 
     (+) = (<+>)
     (*) = (<*>)
-    -- (-) = (<->)
+    (-) = (<->)
     abs n = n
     signum = sg
     fromInteger x
-      | x < 0     = undefined
-      | x == 0    = undefined
-      | otherwise = undefined
+      | x < 0     = error "Negative numbers can't be converted to Nat"
+      | x == 0    = O
+      | otherwise = S (fromInteger (x - 1))
 
