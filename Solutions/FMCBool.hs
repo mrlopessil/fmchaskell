@@ -33,6 +33,7 @@ instance Enum Bool where
 
     toEnum 0 = False
     toEnum 1 = True
+    toEnum _ = error "Bad argument"
 
     fromEnum False = 0
     fromEnum True = 1
