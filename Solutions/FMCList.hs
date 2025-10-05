@@ -219,9 +219,18 @@ replicate i x
   | i <= 0 = []
   | otherwise = x : replicate (i-1) x
 
--- isPrefixOf
--- isInfixOf
--- isSuffixOf
+isPrefixOf :: Eq a => [a] -> [a] -> Bool
+isPrefixOf [] _ = True
+isPrefixOf _ [] = False
+isPrefixOf (x:xs) (y:ys) = x == y && isPrefixOf xs ys 
+
+isInfixOf :: Eq a => [a] -> [a] -> Bool
+isInfixOf [] _ = True
+isInfixOf _ [] = False
+isInfixOf xs ys = any (isPrefixOf xs) (tails ys)
+
+isSuffixOf :: Eq a => [a] -> [a] -> Bool
+isSuffixOf xs ys = reverse xs `isPrefixOf` reverse ys
 
 -- zip
 -- zipWith
