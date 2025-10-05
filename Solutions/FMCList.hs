@@ -242,14 +242,32 @@ zipWith _ [] _ = []
 zipWith _ _ [] = []
 zipWith f (x:xs) (y:ys) = f x y : zipWith f xs ys
 
--- intercalate
--- nub
+intercalate :: [a] -> [[a]] -> [a]
+intercalate _ [] = []
+intercalate _ [x] = x
+intercalate sep (x:xs) = x ++ sep ++ intercalate sep xs
 
--- splitAt
+nub :: Eq a => [a] -> [a]
+nub [] = []
+nub (x:xs) = x : nub (filter (/= x) xs)
+
+splitAt :: Int -> [a] -> ([a], [a])
+splitAt i xs = (takeWhile i xs, drop i xs)
+  where
+    takeWhile 0 _ = []
+    takeWhile _ [] = []
+    takeWhile m (y:ys) = y : takeWhile (m-1) ys
+
 -- what is the problem with the following?:
 -- splitAt n xs  =  (take n xs, drop n xs)
 
--- break
+break :: (a -> Bool) -> [a] -> ([a], [a])
+break _ [] = ([], [])
+break b (x:xs)
+  | b x = ([], x:xs)
+  | otherwise = (x:ys, zs)
+  where
+    (ys, zs) = break b xs
 
 -- lines
 -- words
