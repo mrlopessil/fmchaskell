@@ -131,8 +131,17 @@ drop i xs | i <= 0 = xs
 drop _ [] = []
 drop i (_:xs) = drop (i-1) xs
 
--- takeWhile
--- dropWhile
+takeWhile :: (a -> Bool) -> [a] -> [a]
+takeWhile _ [] = []
+takeWhile b (x:xs)
+  | b x = x : takeWhile b xs
+  | otherwise = []
+
+dropWhile :: (a -> Bool) -> [a] -> [a]
+dropWhile _ [] = []
+dropWhile b (x:xs)
+  | b x = dropWhile b xs
+  | otherwise = x:xs
 
 -- tails
 -- init
