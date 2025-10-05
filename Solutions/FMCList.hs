@@ -143,7 +143,10 @@ dropWhile b (x:xs)
   | b x = dropWhile b xs
   | otherwise = x:xs
 
--- tails
+tails :: [a] -> [[a]]
+tails [] = [[]]
+tails (x:xs) = (x:xs):tails xs
+
 -- init
 -- inits
 
