@@ -190,10 +190,22 @@ elem' :: Eq a => a -> [a] -> Bool
 elem' _ [] = False
 elem' x (y:ys) = x == y || elem' x ys
 
-(!!) :: 
+(!!) :: [a] -> Int -> a
+[] !! _ = error "nil"
+(x:_) !! 0 = x
+(_:xs) !! i
+  | i < 0 = error "negative"
+  | otherwise = xs !! (i-1)
 
--- filter
--- map
+filter :: (a -> Bool) -> [a] -> [a]
+filter _ [] = []
+filter b (x:xs)
+  | b x = x : filter b xs
+  | otherwise = filter b xs
+
+map :: (a -> b) -> [a] -> [b]
+map _ [] = []
+map f (x:xs) = f x : map f xs
 
 -- cycle
 -- repeat
