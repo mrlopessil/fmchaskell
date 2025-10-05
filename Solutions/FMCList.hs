@@ -269,10 +269,26 @@ break b (x:xs)
   where
     (ys, zs) = break b xs
 
--- lines
--- words
--- unlines
--- unwords
+lines :: String -> [String]
+lines [] = []
+lines s = case break (=='\n') s of
+  (line, []) -> [line]
+  (line, _:rest) -> line :lines rest
+
+words :: String -> [String]
+words [] = []
+words s = case dropWhile (== ' ') s of
+  "" -> []
+  s' -> let (word, rest) = break (==' ') s'
+    in word: words rest
+
+unlines :: [String] -> String
+unlines [] = ""
+unlines (x:xs) = x ++ "\n" ++ unlines xs
+
+unwords :: [String] -> String
+unwords [] = ""
+unwords (x:xs) = x ++ " " ++ unwords xs
 
 -- transpose
 
