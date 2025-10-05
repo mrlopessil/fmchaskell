@@ -147,10 +147,16 @@ tails :: [a] -> [[a]]
 tails [] = [[]]
 tails (x:xs) = (x:xs):tails xs
 
--- init
--- inits
+init :: [a] -> [a]
+init [] = error "Nil"
+init [x] = []
+init (x:xs) = x:init xs
 
--- subsequences
+inits :: [a] -> [[a]]
+inits [] = [[]]
+inits (x:xs) = []: [x:ys | ys <- inits xs]
+
+subsequences
 
 -- any
 -- all
