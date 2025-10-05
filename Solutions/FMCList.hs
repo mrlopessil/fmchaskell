@@ -156,13 +156,25 @@ inits :: [a] -> [[a]]
 inits [] = [[]]
 inits (x:xs) = []: [x:ys | ys <- inits xs]
 
-subsequences
+subsequences :: [a] -> [[a]]
+subsequences [] = [[]]
+subsequences (x:xs) = subsequences xs ++ [x:ys | ys <- subsequences xs]
 
--- any
--- all
+any :: (a -> Bool) -> [a] -> Bool
+any _ [] = False
+any b (x:xs) = b x || any b xs
 
--- and
--- or
+all :: (a -> Bool) -> [a] -> Bool
+all _ [] = True
+all b (x:xs) = b x && all b xs
+
+and :: [Bool] -> Bool
+and [] = True
+and (x:xs) = x && and xs
+
+or :: [Bool] -> Bool
+or [] = False
+or (x:xs) = x || or xs
 
 -- concat
 
