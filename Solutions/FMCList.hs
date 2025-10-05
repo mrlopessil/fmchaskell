@@ -207,9 +207,17 @@ map :: (a -> b) -> [a] -> [b]
 map _ [] = []
 map f (x:xs) = f x : map f xs
 
--- cycle
--- repeat
--- replicate
+cycle :: [a] -> [a]
+cycle [] = error "nil"
+cycle xs = xs ++ cycle xs
+
+repeat :: a -> [a]
+repeat x = x : repeat x
+
+replicate :: Int -> a -> [a]
+replicate i x
+  | i <= 0 = []
+  | otherwise = x : replicate (i-1) x
 
 -- isPrefixOf
 -- isInfixOf
