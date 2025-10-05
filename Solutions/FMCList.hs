@@ -111,11 +111,25 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 -- (hmm?!)
 infixl 5 +++
 
--- minimum :: Ord a => [a] -> a
--- maximum :: Ord a => [a] -> a
+minimum :: Ord a => [a] -> a
+minimum [] = error "Nil"
+minimum [x] = x
+minimum (x:xs) = min x (minimum xs)
 
--- take
--- drop
+maximum :: Ord a => [a] -> a
+maximum [] = error "Nil"
+maximum [x] = x
+maximum (x:xs) = max x (maximum xs)
+
+take :: Integral i => i -> [a] -> [a]
+take i _ | i <= 0 = []
+take _ [] = []
+take i (x:xs) = x : take (i-1) xs
+
+drop :: Integral i => i -> [a] -> [a]
+drop i xs | i <= 0 = xs
+drop _ [] = []
+drop i (_:xs) = drop (i-1) xs
 
 -- takeWhile
 -- dropWhile
