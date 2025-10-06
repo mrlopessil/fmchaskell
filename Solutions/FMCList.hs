@@ -59,11 +59,11 @@ write [u,v]     for our u `Cons` (v `Cons` Nil)
 -}
 
 head :: [a] -> a
-head [] = error "Nil"
+head [] = error "cannot take the head of an empty list"
 head (x:_) = x
 
 tail :: [a] -> [a]
-tail [] = error "Nil"
+tail [] = error "cannot take the tail of an empty list"
 tail (_:x) = x
 
 null :: [a] -> Bool
@@ -113,12 +113,12 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 infixl 5 +++
 
 minimum :: Ord a => [a] -> a
-minimum [] = error "Nil"
+minimum [] = error "cannot find the minimum of an empty list"
 minimum [x] = x
 minimum (x:xs) = min x (minimum xs)
 
 maximum :: Ord a => [a] -> a
-maximum [] = error "Nil"
+maximum [] = error "cannot find the maximum of an empty list"
 maximum [x] = x
 maximum (x:xs) = max x (maximum xs)
 
@@ -149,7 +149,7 @@ tails [] = [[]]
 tails (x:xs) = (x:xs):tails xs
 
 init :: [a] -> [a]
-init [] = error "Nil"
+init [] = error "it's not possible to call init for an empty list"
 init [x] = []
 init (x:xs) = x:init xs
 
@@ -192,10 +192,10 @@ elem' _ [] = False
 elem' x (y:ys) = x == y || elem' x ys
 
 (!!) :: [a] -> Int -> a
-[] !! _ = error "nil"
+[] !! _ = error "cannot access an element from an empty list"
 (x:_) !! 0 = x
 (_:xs) !! i
-  | i < 0 = error "negative"
+  | i < 0 = error "negative index not allowed"
   | otherwise = xs !! (i-1)
 
 filter :: (a -> Bool) -> [a] -> [a]
@@ -209,7 +209,7 @@ map _ [] = []
 map f (x:xs) = f x : map f xs
 
 cycle :: [a] -> [a]
-cycle [] = error "nil"
+cycle [] = error "cannot cycle an empty list"
 cycle xs = xs ++ cycle xs
 
 repeat :: a -> [a]
