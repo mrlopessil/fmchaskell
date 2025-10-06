@@ -13,6 +13,7 @@ import Prelude
 import qualified Prelude   as P
 import qualified Data.List as L
 import qualified Data.Char as C
+import Data.Char (toLower, isAlpha)
 
 {- import qualified ... as ... ?
 
@@ -290,11 +291,16 @@ unwords :: [String] -> String
 unwords [] = ""
 unwords (x:xs) = x ++ " " ++ unwords xs
 
--- transpose
+transpose :: [[a]] -> [[a]]
+transpose [] = []
+transpose ([]:xs) = transpose xs
+transpose xs = map head xs : transpose (map tail xs)
 
 -- checks if the letters of a phrase form a palindrome (see below for examples)
 palindrome :: String -> Bool
-palindrome = undefined
+palindrome s = clean == reverse clean
+  where
+    clean = map toLower (filter isAlpha s)
 
 {-
 
